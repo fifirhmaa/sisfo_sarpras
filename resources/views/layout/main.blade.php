@@ -49,7 +49,7 @@
 <div class="sidebar p-3">
     <a href="/dashboard" class="d-block text-center mb-4">
     <img src="{{ asset('img/tebe.png') }}" alt="Logo" class="img-fluid" style="max-width: 300px ;"></a>
-    <a href="/dashboard"><i class="bi bi-grid me-2"></i> Dashboard</a>
+    <a href="{{ route('dashboard') }}"><i class="bi bi-grid me-2"></i> Dashboard</a>
     <a href="/kategori"><i class="bi bi-journal-text me-2"></i> Kategori Barang</a>
     <a href="/barang"><i class="bi bi-clipboard-data me-2"></i> Data Barang</a>
     <a href="/peminjaman"><i class="bi bi-clipboard-check me-2"></i> Peminjaman</a>
