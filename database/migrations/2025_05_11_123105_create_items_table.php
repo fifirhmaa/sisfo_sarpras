@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('image')->nullable();
             $table->integer('stock');
-            $table->enum('condition', ['good', 'bad'])->default('good');
+            $table->enum('condition', ['baik', 'rusak']);
             $table->text('location');
             $table->timestamps();
         });
