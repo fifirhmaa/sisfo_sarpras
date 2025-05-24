@@ -33,7 +33,7 @@ Route::resource('items', ItemsController::class);
 Route::resource('users', UserController::class);
 Route::get('/registrasi', [UserController::class, 'daftar'])->name('pendaftaran.daftar');
 Route::get('/registrasi/create', [UserController::class, 'create'])->name('pendaftaran.create');
-Route::post('/registrasi', [UserController::class, 'store'])->name('pendaftaran.store');
+//Route::post('/registrasi', [UserController::class, 'store'])->name('pendaftaran.store');
 Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
 
