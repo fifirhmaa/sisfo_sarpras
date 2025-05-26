@@ -6,24 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     // Login dan dapatkan token
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid login credentials'], 401);
+    public function login(Request $request){
+        $loginUserData = $request->validate([
+            'email'=>'required|string|email',
+            'password'=>'required|min:6'
+        ]);
+        $user = User::where('email',$loginUserData['email'])->first();
+        if(!$user || !Hash::check($loginUserData['password'],$user->password)){
+            return response()->json([
+                'message' => 'Invalid Credentials'
+            ],401);
         }
-
-        $user = Auth::user();
-        $token = $user->createToken('api-token')->plainTextToken;
-
+        $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
         return response()->json([
-            'user' => $user,
-            'token' => $token,
+            'data' => $user,
+            'access_token' => $token,
         ]);
     }
 
@@ -35,32 +37,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
-    // Ambil data user yang sedang login
     public function me(Request $request)
     {
         return response()->json($request->user());
-    }
-
-    // Register user baru (jika ada fitur)
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-
-        $token = $user->createToken('api-token')->plainTextToken;
-
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], 201);
     }
 }

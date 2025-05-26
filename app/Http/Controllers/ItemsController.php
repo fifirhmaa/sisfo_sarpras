@@ -6,6 +6,7 @@ use App\Models\Items;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class ItemsController extends Controller
 {
@@ -83,8 +84,8 @@ class ItemsController extends Controller
     public function destroy(Items $item)
     {
         // Optional: Hapus file gambarnya dari storage sebelum hapus data
-        if ($item->image && \Storage::disk('public')->exists($item->image)) {
-            \Storage::disk('public')->delete($item->image);
+        if ($item->image && Storage::disk('public')->exists($item->image)) {
+            Storage::disk('public')->delete($item->image);
         }
 
         $item->delete();

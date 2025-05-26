@@ -131,8 +131,8 @@
             @forelse($borrows as $index => $borrow)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $borrow->item->kode_barang ?? '-' }}</td>
-                <td>{{ $borrow->item->nama_barang ?? '-' }}</td>
+                <td>{{ $borrow->item->code_item ?? '-' }}</td>
+                <td>{{ $borrow->item->name ?? '-' }}</td>
                 <td>{{ $borrow->quantity }}</td>
                 <td>{{ \Carbon\Carbon::parse($borrow->borrow_date)->format('d-m-Y') }}</td>
                 <td>

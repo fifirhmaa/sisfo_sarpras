@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -23,10 +25,13 @@ class AuthController extends Controller
         ]);
 
         // Attempt to authenticate the user
-        if (Auth::attempt($request->only('email', 'password'))) {
-            // Redirect to the dashboard if authentication is successful
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
             return redirect()->route('dashboard');
         }
+
 
         // If authentication fails, redirect back with an error message
         return back()->withErrors(['email' => 'The provided credentials are incorrect.']);

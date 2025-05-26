@@ -31,7 +31,7 @@ Route::resource('items', ItemsController::class);
 
 // Registrasi Routes
 Route::resource('users', UserController::class);
-Route::get('/registrasi', [UserController::class, 'daftar'])->name('pendaftaran.daftar');
+Route::get('/registrasi', [UserController::class, 'index'])->name('pendaftaran.daftar');
 Route::get('/registrasi/create', [UserController::class, 'create'])->name('pendaftaran.create');
 //Route::post('/registrasi', [UserController::class, 'store'])->name('pendaftaran.store');
 Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
