@@ -12,7 +12,6 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // Tambah 'can:manage-users' jika pakai Gate/Policy
     }
 
     // Tampilkan semua user
