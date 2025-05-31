@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->date('borrow_date');
+            $table->date('return_date')->nullable();
             $table->text('purposes');
-            $table->enum('status', ['borrowed', 'returned'])->default('borrowed');
+            $table->enum('status', ['borrowed', 'returned', 'fine'])->default('borrowed');
             $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });

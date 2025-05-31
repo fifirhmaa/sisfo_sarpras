@@ -15,6 +15,7 @@ class Borrows extends Model
         'quantity',
         'purposes',
         'borrow_date',
+        'return_date',
         'status',
         'is_approved',
     ];
@@ -26,7 +27,7 @@ class Borrows extends Model
 
     public function item()
     {
-        return $this->belongsTo(Items::class);
+        return $this->belongsTo(Items::class, 'item_id', 'id');
     }
 
 // In app/Models/Borrow.php

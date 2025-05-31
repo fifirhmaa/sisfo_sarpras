@@ -11,11 +11,34 @@ class ReturnsController extends Controller
     public function index($userId)
     {
         $returns = Returns::where('user_id', $userId)->get();
-        
+
         return response()->json([
-            'data' => $returns
-        ]);
+            'message' => 'Success',
+            'dataReturn' => $returns
+        ], 200);
     }
+
+    public function show($userId, $returnId)
+    {
+        $return = Returns::where('user_id', $userId)
+            ->where('id', $returnId)
+            ->first();
+
+        if (!$return) {
+            return response()->json(['message' => 'Return not found'], 404);
+        }
+
+        return response()->json($return);
+    }
+
+    public function returnCount($userId)
+    {
+        $returnCount = Returns::where('user_id', $userId)->count();
+        return response()->json([
+            'returnCount' => $returnCount
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -23,7 +46,7 @@ class ReturnsController extends Controller
             'borrow_id' => ['required', 'exists:borrows,id'],
             'return_date' => ['required', 'date'],
             'condition' => ['required', 'in:good,bad,lost'],
-            'note' => ['required', 'string'],
+            'note' => ['nullable', 'string'],
             'status' => ['required', 'in:finish,finish(bad),finish(lost)']
         ]);
 
@@ -38,7 +61,7 @@ class ReturnsController extends Controller
 
         return response()->json([
             'message' => 'Data pengembalian berhasil ditambahkan',
-            'data' => $return
+            'postReturn' => $return
         ], 201);
     }
 }

@@ -136,7 +136,7 @@
                 <td>{{ $return->id }}</td>
                 <td>{{ \Carbon\Carbon::parse($return->return_date)->format('d-m-Y') }}</td>
                 <td>{{ $return->user->name ?? '-' }}</td>
-                <td>{{ $return->borrow->item->nama_barang ?? '-' }}</td>
+                <td>{{ $return->borrow->item->name ?? '-' }}</td>
                 <td><span class="badge bg-success">Dikembalikan</span></td>
                 <td>
                     <form action="{{ route('returns.destroy', $return->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">

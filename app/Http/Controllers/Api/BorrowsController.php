@@ -10,9 +10,21 @@ class BorrowsController extends Controller
 {
     public function index($userId)
     {
-        $borrows = Borrows::where('user_id', $userId)->get();
+        $borrows = Borrows::with('item') // ini ambil relasi 'item'
+            ->where('user_id', $userId)
+            ->get();
+
         return response()->json([
-            'data' => $borrows
+            'dataBorrow' => $borrows
+        ], 200);
+    }
+
+
+    public function borrowCount($userId)
+    {
+        $borrowCount = Borrows::where('user_id', $userId)->count();
+        return response()->json([
+            'borrowCount' => $borrowCount
         ], 200);
     }
 
@@ -29,6 +41,16 @@ class BorrowsController extends Controller
         return response()->json($borrow);
     }
 
+    public function fineCount($userId)
+    {
+        $fineCount = Borrows::where('user_id', $userId)
+            ->where('status', 'fine')
+            ->count();
+        return response()->json([
+            'fineCount' => $fineCount
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -36,14 +58,15 @@ class BorrowsController extends Controller
             'item_id' => 'required|exists:items,id',
             'quantity' => 'required|integer|min:1',
             'borrow_date' => 'required|date',
+            'return_date' => 'nullable|date',
             'purposes' => 'required|string',
-            'status' => 'nullable|in:borrowed,returned',
+            'status' => 'nullable|in:borrowed,returned,fine',
             'is_approved' => 'nullable|boolean',
         ]);
 
         $borrow = Borrows::create($request->all());
         return response()->json([
-            'data' => $borrow
+            'postBorrow' => $borrow
         ], 201);
     }
 }

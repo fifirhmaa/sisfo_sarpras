@@ -26,4 +26,25 @@ class ItemsController extends Controller
 
         return response()->json($item);
     }
+
+    public function byCategory($categoryId)
+    {
+        $items = Items::where('category_id', $categoryId)->get();
+
+        if (!$items) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
+
+        return response()->json([
+            'dataCategory' => $items
+        ]);
+    }
+
+    public function itemCount()
+    {
+        $itemCount = Items::all()->count();
+
+        return response()->json(['itemCount' => $itemCount]);
+    }
+
 }
